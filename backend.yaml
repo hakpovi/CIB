@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-app
+  labels:
+    app: postgresql
+  namespace: front-back-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: front-back-app
+      tier: postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: front-back-app
+        tier: postgresql
+    spec:
+      containers:
+      - image:  my-registry.io/my-application/backend:1.0
+        name: postgesql
+        env:
+        - name: SPRING_POSTGRES_USERNAME
+          value: myapplication
+        - name: SPRING_POSTGRES_PASSWORD 
+          value: M3P@ssw0rd!
+        ports:
+        - containerPort: 5432
+          name: postgresql
+        volumeMounts:
+        - name: postgre-persistent-storage
+          mountPath: /var/lib/postgresql
+      volumes:
+      - name: postgre-persistent-storage
+        hostPath:
+          path: /data/postgresql
+

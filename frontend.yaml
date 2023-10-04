@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front
+  labels:
+    app: frontend
+  namespace: front-back-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-back-app
+      tier: front
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: front-back-app
+        tier: front
+    spec:
+      containers:
+      - image: my-registry.io/my-application/front:1.0
+        name: front
+        env:
+        - name: SPRING_POSTGRES_USERNAME
+          value: myapplication
+        - name: SPRING_POSTGRES_URL
+          value: my-db-test.io
+        - name: WORDPRESS_DB_HOST
+          value: postgresql-service
+        - name: SPRING_POSTGRES_PASSWORD 
+          value: M3P@ssw0rd!
+        ports:
+        - containerPort: 80
+          name: frontend
+        volumeMounts:
+        - name: front-persistent-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: front-persistent-storage
+        hostPath:
+          path: /data/front
+

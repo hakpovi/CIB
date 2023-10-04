@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: postgresql
+  name: postgresql-service
+  namespace: front-back-app
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: backend-app
+    tier: postgresql
+status:
+  loadBalancer: {}
