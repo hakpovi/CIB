@@ -8,6 +8,6 @@ Both are exposed throughout services. Otherwise it would not be possible to comm
 
 An ingress resource has been set up to allow the main application being reachable outside the cluster. So that the frontend application has been exposed by a nodeport service. 
 
-Notice that all the deployment have been done inside a unique namespace. The one front-back-app.
+Notice that all the deployments have been done inside a unique namespace. The one front-back-app.
 
 
